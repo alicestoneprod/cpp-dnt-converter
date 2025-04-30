@@ -20,27 +20,27 @@ enum ColumnType
     FLOAT64 = 6,
 };
 
-struct et_string
+struct EtString
 {
     uint16_t length;
     vector<char> name;
 };
 
-struct column
+struct Column
 {
-    et_string et_string;
+    EtString et_string;
     uint32_t type;
 };
 
-struct header
+struct Header
 {
     uint32_t magic;
     uint16_t columns_count;
     uint32_t rows_count;
 };
 
-struct dnt
+struct Dnt
 {
-    header header;
-    vector<column> columns_data;
+    Header header;
+    vector<Column> columns_data;
 };

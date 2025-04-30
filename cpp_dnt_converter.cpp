@@ -7,30 +7,31 @@ int convert_dnt_to_csv(const string &path)
 {
     auto* reader = new bireader();
     auto* dnt_f = new dnt_file();
+    
     if (!dnt_f->init(path)) return 0;
-    {
-        dnt dnt_data;
-        header header;
+    
+        Dnt dnt_data;
+        Header header;
         ifstream& dnt_f_stream_ptr = dnt_f->get_stream();
 
-        header.magic = reader->readInt32(dnt_f_stream_ptr);
-        header.columns_count = reader->readUInt16(dnt_f_stream_ptr) + 1;
-        header.rows_count = reader->readUInt32(dnt_f_stream_ptr);
+        header.magic = reader->read_int_32(dnt_f_stream_ptr);
+        header.columns_count = reader->read_uint_16(dnt_f_stream_ptr) + 1;
+        header.rows_count = reader->read_uint_32(dnt_f_stream_ptr);
 
-        column row_id_column;
+        Column row_id_column;
         row_id_column.type = 3;
         row_id_column.et_string.name = vector<char>{'_', 'R', 'o', 'w', 'I', 'D'};
         row_id_column.et_string.length = 6;
         
-        vector<column> columns {row_id_column};
+        vector<Column> columns {row_id_column};
          
         for (uint16_t j = 0; j < header.columns_count - 1; j++)
         {
-            column column;
-            et_string et_string;
-            et_string.length = reader->readUInt16(dnt_f_stream_ptr);
-            et_string.name = reader->readBuffer(dnt_f_stream_ptr, et_string.length);
-            column.type = reader->readUInt8(dnt_f_stream_ptr);
+            Column column;
+            EtString et_string;
+            et_string.length = reader->read_uint_16(dnt_f_stream_ptr);
+            et_string.name = reader->read_buffer(dnt_f_stream_ptr, et_string.length);
+            column.type = reader->read_uint8(dnt_f_stream_ptr);
             column.et_string = et_string;
             columns.push_back(column);
         }
@@ -85,7 +86,6 @@ int convert_dnt_to_csv(const string &path)
         csv->close();
 
         return 0;
-    }
 }
 
 int main(int argc, char* argv[])
