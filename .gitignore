@@ -1,5 +1,7 @@
 # Prerequisites
 *.d
+x64
+cpp-dnt-*
 
 # Compiled Object files
 *.slo
@@ -30,3 +32,5 @@
 *.exe
 *.out
 *.app
+
+*.idea
